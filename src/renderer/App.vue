@@ -1,42 +1,42 @@
 <template>
-  <div class="min-h-screen bg-gray-100 p-6">
-    <div class="max-w-4xl mx-auto">
+  <div class="min-h-screen bg-gray-100 p-4">
+    <div class="max-w-3xl mx-auto">
       <!-- 标题 -->
-      <div class="text-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">TinyPicture</h1>
-        <p class="text-gray-600">图片压缩工具</p>
+      <div class="text-center mb-4">
+        <h1 class="text-2xl font-bold text-gray-800 mb-1">TinyPicture</h1>
+        <p class="text-sm text-gray-600">图片压缩工具</p>
       </div>
 
       <!-- 主卡片 -->
-      <div class="card space-y-6">
+      <div class="card space-y-4">
         <!-- 路径选择 -->
         <section>
-          <div class="space-y-3">
+          <div class="space-y-2">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">原图路径</label>
+              <label class="block text-xs font-medium text-gray-700 mb-1">原图路径</label>
               <div class="flex gap-2">
                 <input
                   v-model="inputPath"
                   type="text"
-                  class="input-field"
+                  class="input-field text-sm"
                   placeholder="选择原图文件夹"
                   readonly
                 />
-                <button @click="selectInputFolder" class="btn whitespace-nowrap">浏览</button>
+                <button @click="selectInputFolder" class="btn text-sm whitespace-nowrap px-3 py-1.5">浏览</button>
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">输出路径</label>
+              <label class="block text-xs font-medium text-gray-700 mb-1">输出路径</label>
               <div class="flex gap-2">
                 <input
                   v-model="outputPath"
                   type="text"
-                  class="input-field"
+                  class="input-field text-sm"
                   placeholder="选择输出文件夹"
                   readonly
                 />
-                <button @click="selectOutputFolder" class="btn whitespace-nowrap">浏览</button>
+                <button @click="selectOutputFolder" class="btn text-sm whitespace-nowrap px-3 py-1.5">浏览</button>
               </div>
             </div>
           </div>
@@ -44,133 +44,125 @@
 
         <!-- 压缩设置 -->
         <section>
-          <h2 class="section-title">
-            <span class="text-xl">⚙️</span>
+          <h2 class="text-sm font-semibold mb-2 flex items-center gap-2">
+            <span>⚙️</span>
             压缩设置
           </h2>
 
-          <div class="space-y-4">
-            <!-- 图片质量 -->
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <label class="text-sm font-medium text-gray-700">图片质量</label>
-                <span class="text-sm font-semibold text-blue-600">{{ settings.quality }}</span>
+          <div class="grid grid-cols-2 gap-4">
+            <!-- 左侧：基础设置 -->
+            <div class="space-y-3">
+              <!-- 图片质量 -->
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <label class="text-xs font-medium text-gray-700">图片质量</label>
+                  <span class="text-xs font-semibold text-blue-600">{{ settings.quality }}</span>
+                </div>
+                <input
+                  v-model.number="settings.quality"
+                  type="range"
+                  min="0"
+                  max="100"
+                  class="w-full h-2"
+                />
+                <p class="text-xs text-gray-500 mt-0.5">推荐 75-85</p>
               </div>
-              <input
-                v-model.number="settings.quality"
-                type="range"
-                min="0"
-                max="100"
-                class="w-full"
-              />
-              <p class="text-xs text-gray-500 mt-1">推荐 75-85，质量越高体积越大</p>
-            </div>
 
-            <!-- 分辨率限制 -->
-            <div>
-              <label class="text-sm font-medium text-gray-700 mb-2 block">分辨率限制</label>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input
-                    v-model="settings.resizeMode"
-                    type="radio"
-                    value="none"
-                    class="cursor-pointer"
-                  />
-                  <span class="text-sm">保持原始分辨率</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input
-                    v-model="settings.resizeMode"
-                    type="radio"
-                    value="limit"
-                    class="cursor-pointer"
-                  />
-                  <span class="text-sm">限制最大边长</span>
-                </label>
-
-                <div v-if="settings.resizeMode === 'limit'" class="ml-6 mt-2">
-                  <select v-model.number="settings.maxSize" class="input-field">
+              <!-- 分辨率限制 -->
+              <div>
+                <label class="text-xs font-medium text-gray-700 mb-1 block">分辨率限制</label>
+                <div class="space-y-1.5">
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      v-model="settings.resizeMode"
+                      type="radio"
+                      value="none"
+                      class="cursor-pointer"
+                    />
+                    <span class="text-xs">保持原始</span>
+                  </label>
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      v-model="settings.resizeMode"
+                      type="radio"
+                      value="limit"
+                      class="cursor-pointer"
+                    />
+                    <span class="text-xs">限制最大边长</span>
+                  </label>
+                  <select v-if="settings.resizeMode === 'limit'" v-model.number="settings.maxSize" class="input-field text-xs py-1 w-full">
                     <option :value="3840">4K (3840px)</option>
                     <option :value="2560">2K (2560px)</option>
                     <option :value="1920">Full HD (1920px)</option>
                     <option :value="1280">HD (1280px)</option>
                     <option value="custom">自定义</option>
                   </select>
-
                   <input
-                    v-if="settings.maxSize === 'custom'"
+                    v-if="settings.resizeMode === 'limit' && settings.maxSize === 'custom'"
                     v-model.number="settings.customMaxSize"
                     type="number"
-                    class="input-field mt-2"
+                    class="input-field text-xs py-1 w-full"
                     placeholder="输入自定义尺寸"
                     min="100"
                   />
                 </div>
               </div>
-            </div>
 
-            <!-- 输出格式 -->
-            <div>
-              <label class="text-sm font-medium text-gray-700 mb-2 block">输出格式</label>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input
-                    v-model="settings.format"
-                    type="radio"
-                    value="original"
-                    class="cursor-pointer"
-                  />
-                  <span class="text-sm">保持原格式</span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                  <input
-                    v-model="settings.format"
-                    type="radio"
-                    value="webp"
-                    class="cursor-pointer"
-                  />
-                  <span class="text-sm">转换为 WebP（更小体积）</span>
-                </label>
+              <!-- 输出格式 -->
+              <div>
+                <label class="text-xs font-medium text-gray-700 mb-1 block">输出格式</label>
+                <div class="space-y-1.5">
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      v-model="settings.format"
+                      type="radio"
+                      value="original"
+                      class="cursor-pointer"
+                    />
+                    <span class="text-xs">保持原格式</span>
+                  </label>
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input
+                      v-model="settings.format"
+                      type="radio"
+                      value="webp"
+                      class="cursor-pointer"
+                    />
+                    <span class="text-xs">转换为 WebP</span>
+                  </label>
+                </div>
               </div>
             </div>
 
-            <!-- 高级选项 -->
-            <div class="border-t pt-4">
-              <button
-                @click="showAdvanced = !showAdvanced"
-                class="text-sm font-medium text-gray-700 flex items-center gap-2 cursor-pointer hover:text-blue-600"
-              >
-                <span>{{ showAdvanced ? '▼' : '▶' }}</span>
-                高级选项
-              </button>
-
-              <div v-if="showAdvanced" class="mt-3 space-y-2 ml-4">
-                <label class="flex items-center gap-2 cursor-pointer">
+            <!-- 右侧：高级选项 -->
+            <div class="border-l pl-4">
+              <h3 class="text-xs font-medium text-gray-700 mb-2">高级选项</h3>
+              <div class="space-y-2">
+                <label class="flex items-center gap-1.5 cursor-pointer">
                   <input
                     v-model="settings.keepExif"
                     type="checkbox"
                     class="cursor-pointer"
                   />
-                  <span class="text-sm">保留原有 EXIF 信息</span>
+                  <span class="text-xs">保留原有 EXIF 信息</span>
                 </label>
-                <label class="flex items-center gap-2 cursor-pointer">
+                <label class="flex items-center gap-1.5 cursor-pointer">
                   <input
                     v-model="settings.autoFillExifDate"
                     type="checkbox"
                     class="cursor-pointer"
                     :disabled="!settings.keepExif"
                   />
-                  <span class="text-sm">自动补全缺失的拍摄时间</span>
+                  <span class="text-xs" :class="{ 'text-gray-400': !settings.keepExif }">自动补全缺失的拍摄时间</span>
                 </label>
-                <p class="text-xs text-gray-500 ml-6">将使用文件修改时间填充</p>
-                <label class="flex items-center gap-2 cursor-pointer">
+                <p class="text-xs text-gray-500 ml-5">将使用文件修改时间填充</p>
+                <label class="flex items-center gap-1.5 cursor-pointer">
                   <input
                     v-model="settings.keepTimestamp"
                     type="checkbox"
                     class="cursor-pointer"
                   />
-                  <span class="text-sm">保持原文件修改时间</span>
+                  <span class="text-xs">保持原文件修改时间</span>
                 </label>
               </div>
             </div>
@@ -179,21 +171,21 @@
 
         <!-- 压缩预览 -->
         <section>
-          <h2 class="section-title">
-            <span class="text-xl">📊</span>
+          <h2 class="text-sm font-semibold mb-2 flex items-center gap-2">
+            <span>📊</span>
             压缩预览
           </h2>
 
-          <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+          <div class="bg-gray-50 rounded-lg p-3 space-y-2">
             <button
               @click="startEstimate"
               :disabled="!inputPath || estimating"
-              class="btn w-full"
+              class="btn w-full text-sm py-1.5"
             >
               {{ estimating ? '正在分析...' : '开始预估' }}
             </button>
 
-            <div v-if="estimateResult" class="space-y-2 text-sm">
+            <div v-if="estimateResult" class="space-y-1 text-xs">
               <div class="flex justify-between">
                 <span class="text-gray-600">总文件数：</span>
                 <span class="font-semibold">{{ estimateResult.fileCount }} 张</span>
@@ -205,34 +197,32 @@
               <div class="flex justify-between">
                 <span class="text-gray-600">预计后：</span>
                 <span class="font-semibold text-green-600">
-                  ~{{ estimateResult.estimatedSizeFormatted }}
-                  （节省 {{ estimateResult.savedPercent }}%）
+                  ~{{ estimateResult.estimatedSizeFormatted }} ({{ estimateResult.savedPercent }}%)
                 </span>
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-600">基于样本：</span>
-                <span class="text-gray-500">{{ estimateResult.sampleCount }} 张测试</span>
+                <span class="text-gray-500">{{ estimateResult.sampleCount }} 张</span>
               </div>
 
               <!-- EXIF 缺失提示 -->
               <div
                 v-if="estimateResult.exifInfo && estimateResult.exifInfo.missingExif > 0"
-                class="bg-yellow-50 border border-yellow-200 rounded p-3 mt-3"
+                class="bg-yellow-50 border border-yellow-200 rounded p-2 mt-2"
               >
-                <p class="text-sm font-medium text-yellow-800 mb-2">
-                  ⚠️ 发现 {{ estimateResult.exifInfo.missingExif }} 张图片缺少拍摄时间
+                <p class="text-xs font-medium text-yellow-800 mb-1">
+                  ⚠️ {{ estimateResult.exifInfo.missingExif }} 张图片缺少拍摄时间
                 </p>
-                <p class="text-xs text-yellow-700 mb-2">这可能影响照片管理软件的排序</p>
                 <div class="flex gap-2">
                   <button
                     @click="enableAutoFillExif"
-                    class="text-xs px-3 py-1 bg-yellow-600 text-white rounded hover:bg-yellow-700"
+                    class="text-xs px-2 py-0.5 bg-yellow-600 text-white rounded hover:bg-yellow-700"
                   >
-                    启用自动补全
+                    启用补全
                   </button>
                   <button
                     @click="dismissExifWarning"
-                    class="text-xs px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                    class="text-xs px-2 py-0.5 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
                   >
                     忽略
                   </button>
@@ -244,18 +234,18 @@
 
         <!-- 操作按钮 -->
         <section>
-          <div class="flex gap-3">
+          <div class="flex gap-2">
             <button
               @click="startCompression"
               :disabled="!inputPath || !outputPath || compressing"
-              class="btn flex-1"
+              class="btn flex-1 text-sm py-2"
             >
               {{ compressing ? '压缩中...' : '开始压缩' }}
             </button>
             <button
               @click="cancelCompression"
               :disabled="!compressing"
-              class="btn-secondary"
+              class="btn-secondary text-sm py-2 px-4"
             >
               取消
             </button>
@@ -264,36 +254,33 @@
 
         <!-- 进度条 -->
         <section v-if="progress.total > 0">
-          <div class="space-y-2">
-            <div class="flex justify-between text-sm">
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs">
               <span class="text-gray-600">
                 进度: {{ progress.current }} / {{ progress.total }}
               </span>
               <span class="font-semibold text-blue-600">{{ progress.percent }}%</span>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
               <div
                 class="bg-blue-500 h-full transition-all duration-300"
                 :style="{ width: progress.percent + '%' }"
               ></div>
             </div>
-            <p class="text-xs text-gray-500">当前: {{ progress.currentFile }}</p>
+            <p class="text-xs text-gray-500">{{ progress.currentFile }}</p>
             <p class="text-xs text-green-600">已节省: {{ formatSize(progress.savedSize) }}</p>
           </div>
         </section>
 
         <!-- 完成提示 -->
         <section v-if="compressionResult">
-          <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h3 class="font-semibold text-green-800 mb-2">✅ 压缩完成！</h3>
-            <div class="text-sm space-y-1 text-green-700">
-              <p>成功: {{ compressionResult.success }} 张</p>
-              <p v-if="compressionResult.failed > 0">失败: {{ compressionResult.failed }} 张</p>
-              <p>原始大小: {{ formatSize(compressionResult.originalSize) }}</p>
-              <p>压缩后: {{ formatSize(compressionResult.compressedSize) }}</p>
+          <div class="bg-green-50 border border-green-200 rounded-lg p-3">
+            <h3 class="text-sm font-semibold text-green-800 mb-1.5">✅ 压缩完成！</h3>
+            <div class="text-xs space-y-0.5 text-green-700">
+              <p>成功: {{ compressionResult.success }} 张 <span v-if="compressionResult.failed > 0">/ 失败: {{ compressionResult.failed }} 张</span></p>
+              <p>原始: {{ formatSize(compressionResult.originalSize) }} → 压缩后: {{ formatSize(compressionResult.compressedSize) }}</p>
               <p class="font-semibold">
-                节省空间: {{ formatSize(compressionResult.savedSize) }}
-                ({{ compressionResult.compressionRatio }}%)
+                节省: {{ formatSize(compressionResult.savedSize) }} ({{ compressionResult.compressionRatio }}%)
               </p>
             </div>
           </div>
