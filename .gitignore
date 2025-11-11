@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-electron/
+*.log
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+build/
+.vscode/
+.idea/
+.claude/

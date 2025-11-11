@@ -23,9 +23,11 @@
 ## 技术栈
 
 - **Electron** - 跨平台桌面应用框架
-- **Node.js** - 后端逻辑
+- **Vue 3** - 前端框架
+- **UnoCSS** - 原子化 CSS 引擎
+- **Vite** - 前端构建工具
 - **Sharp** - 高性能图片处理库（基于 libvips）
-- **HTML/CSS/JavaScript** - 前端界面
+- **Node.js** - 后端逻辑
 
 ## 项目结构
 
@@ -34,16 +36,18 @@ TinyPicture/
 ├── src/
 │   ├── main/                    # Electron 主进程
 │   │   ├── index.js            # 主进程入口
+│   │   ├── preload.js          # 预加载脚本（IPC 通信）
 │   │   ├── compressor.js       # 图片压缩核心逻辑
 │   │   └── exifHandler.js      # EXIF 信息处理
-│   ├── renderer/                # 渲染进程（UI）
-│   │   ├── index.html          # 主界面
-│   │   ├── app.js              # UI 逻辑
-│   │   └── styles.css          # 样式
+│   ├── renderer/                # 渲染进程（Vue3 UI）
+│   │   ├── App.vue             # 主界面组件
+│   │   └── main.js             # Vue 入口文件
 │   └── utils/
 │       ├── fileWalker.js       # 文件遍历工具
-│       ├── pathHelper.js       # 路径处理工具
 │       └── estimator.js        # 压缩预估工具
+├── index.html                   # HTML 入口
+├── vite.config.js              # Vite 配置
+├── uno.config.js               # UnoCSS 配置
 ├── package.json
 ├── README.md
 └── .gitignore
@@ -341,17 +345,30 @@ await sharp(input)
 ## 安装依赖
 
 ```bash
-npm install electron sharp fs-extra
+npm install
 ```
 
 ## 开发运行
 
 ```bash
-# 开发模式
+# 开发模式（自动启动 Vite 和 Electron）
 npm run dev
 
-# 构建 Windows 应用
+# 或者手动分别启动
+# 终端 1：启动 Vite 开发服务器
+npm run dev:vite
+
+# 终端 2：启动 Electron（等 Vite 启动后）
+npx electron .
+```
+
+## 构建打包
+
+```bash
+# 构建 Windows 安装包（需要管理员权限）
 npm run build:win
+
+# 构建完成后，安装包在 dist 目录中
 ```
 
 ## 支持的图片格式
