@@ -13,7 +13,7 @@
         <section>
           <div class="space-y-2">
             <div>
-              <label class="block text-xs font-medium text-gray-700 mb-1">原图路径</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">原图路径</label>
               <div class="flex gap-2">
                 <input
                   v-model="inputPath"
@@ -27,7 +27,7 @@
             </div>
 
             <div>
-              <label class="block text-xs font-medium text-gray-700 mb-1">输出路径</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">输出路径</label>
               <div class="flex gap-2">
                 <input
                   v-model="outputPath"
@@ -44,7 +44,7 @@
 
         <!-- 压缩设置 -->
         <section>
-          <h2 class="text-sm font-semibold mb-2 flex items-center gap-2">
+          <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
             <span>⚙️</span>
             压缩设置
           </h2>
@@ -55,8 +55,8 @@
               <!-- 图片质量 -->
               <div>
                 <div class="flex justify-between items-center mb-1">
-                  <label class="text-xs font-medium text-gray-700">图片质量</label>
-                  <span class="text-xs font-semibold text-blue-600">{{ settings.quality }}</span>
+                  <label class="text-sm font-medium text-gray-700">图片质量</label>
+                  <span class="text-sm font-semibold text-blue-600">{{ settings.quality }}</span>
                 </div>
                 <input
                   v-model.number="settings.quality"
@@ -70,7 +70,7 @@
 
               <!-- 分辨率限制 -->
               <div>
-                <label class="text-xs font-medium text-gray-700 mb-1 block">分辨率限制</label>
+                <label class="text-sm font-medium text-gray-700 mb-1 block">分辨率限制</label>
                 <div class="space-y-1.5">
                   <label class="flex items-center gap-1.5 cursor-pointer">
                     <input
@@ -79,7 +79,7 @@
                       value="none"
                       class="cursor-pointer"
                     />
-                    <span class="text-xs">保持原始</span>
+                    <span class="text-sm">保持原始</span>
                   </label>
                   <label class="flex items-center gap-1.5 cursor-pointer">
                     <input
@@ -88,9 +88,9 @@
                       value="limit"
                       class="cursor-pointer"
                     />
-                    <span class="text-xs">限制最大边长</span>
+                    <span class="text-sm">限制最大边长</span>
                   </label>
-                  <select v-if="settings.resizeMode === 'limit'" v-model.number="settings.maxSize" class="input-field text-xs py-1 w-full">
+                  <select v-if="settings.resizeMode === 'limit'" v-model.number="settings.maxSize" class="input-field text-sm py-1 w-full">
                     <option :value="3840">4K (3840px)</option>
                     <option :value="2560">2K (2560px)</option>
                     <option :value="1920">Full HD (1920px)</option>
@@ -101,7 +101,7 @@
                     v-if="settings.resizeMode === 'limit' && settings.maxSize === 'custom'"
                     v-model.number="settings.customMaxSize"
                     type="number"
-                    class="input-field text-xs py-1 w-full"
+                    class="input-field text-sm py-1 w-full"
                     placeholder="输入自定义尺寸"
                     min="100"
                   />
@@ -110,7 +110,7 @@
 
               <!-- 输出格式 -->
               <div>
-                <label class="text-xs font-medium text-gray-700 mb-1 block">输出格式</label>
+                <label class="text-sm font-medium text-gray-700 mb-1 block">输出格式</label>
                 <div class="space-y-1.5">
                   <label class="flex items-center gap-1.5 cursor-pointer">
                     <input
@@ -119,7 +119,7 @@
                       value="original"
                       class="cursor-pointer"
                     />
-                    <span class="text-xs">保持原格式</span>
+                    <span class="text-sm">保持原格式</span>
                   </label>
                   <label class="flex items-center gap-1.5 cursor-pointer">
                     <input
@@ -128,7 +128,7 @@
                       value="webp"
                       class="cursor-pointer"
                     />
-                    <span class="text-xs">转换为 WebP</span>
+                    <span class="text-sm">转换为 WebP</span>
                   </label>
                 </div>
               </div>
@@ -136,7 +136,7 @@
 
             <!-- 右侧：高级选项 -->
             <div class="border-l pl-4">
-              <h3 class="text-xs font-medium text-gray-700 mb-2">高级选项</h3>
+              <h3 class="text-sm font-medium text-gray-700 mb-2">高级选项</h3>
               <div class="space-y-2">
                 <label class="flex items-center gap-1.5 cursor-pointer">
                   <input
@@ -144,7 +144,7 @@
                     type="checkbox"
                     class="cursor-pointer"
                   />
-                  <span class="text-xs">保留原有 EXIF 信息</span>
+                  <span class="text-sm">保留原有 EXIF 信息</span>
                 </label>
                 <label class="flex items-center gap-1.5 cursor-pointer">
                   <input
@@ -153,7 +153,7 @@
                     class="cursor-pointer"
                     :disabled="!settings.keepExif"
                   />
-                  <span class="text-xs" :class="{ 'text-gray-400': !settings.keepExif }">自动补全缺失的拍摄时间</span>
+                  <span class="text-sm" :class="{ 'text-gray-400': !settings.keepExif }">自动补全缺失的拍摄时间</span>
                 </label>
                 <p class="text-xs text-gray-500 ml-5">将使用文件修改时间填充</p>
                 <label class="flex items-center gap-1.5 cursor-pointer">
@@ -162,7 +162,7 @@
                     type="checkbox"
                     class="cursor-pointer"
                   />
-                  <span class="text-xs">保持原文件修改时间</span>
+                  <span class="text-sm">保持原文件修改时间</span>
                 </label>
               </div>
             </div>
@@ -171,7 +171,7 @@
 
         <!-- 压缩预览 -->
         <section>
-          <h2 class="text-sm font-semibold mb-2 flex items-center gap-2">
+          <h2 class="text-base font-semibold mb-2 flex items-center gap-2">
             <span>📊</span>
             压缩预览
           </h2>
@@ -185,7 +185,7 @@
               {{ estimating ? '正在分析...' : '开始预估' }}
             </button>
 
-            <div v-if="estimateResult" class="space-y-1 text-xs">
+            <div v-if="estimateResult" class="space-y-1 text-sm">
               <div class="flex justify-between">
                 <span class="text-gray-600">总文件数：</span>
                 <span class="font-semibold">{{ estimateResult.fileCount }} 张</span>
@@ -210,7 +210,7 @@
                 v-if="estimateResult.exifInfo && estimateResult.exifInfo.missingExif > 0"
                 class="bg-yellow-50 border border-yellow-200 rounded p-2 mt-2"
               >
-                <p class="text-xs font-medium text-yellow-800 mb-1">
+                <p class="text-sm font-medium text-yellow-800 mb-1">
                   ⚠️ {{ estimateResult.exifInfo.missingExif }} 张图片缺少拍摄时间
                 </p>
                 <div class="flex gap-2">
@@ -255,7 +255,7 @@
         <!-- 进度条 -->
         <section v-if="progress.total > 0">
           <div class="space-y-1.5">
-            <div class="flex justify-between text-xs">
+            <div class="flex justify-between text-sm">
               <span class="text-gray-600">
                 进度: {{ progress.current }} / {{ progress.total }}
               </span>
@@ -267,8 +267,8 @@
                 :style="{ width: progress.percent + '%' }"
               ></div>
             </div>
-            <p class="text-xs text-gray-500">{{ progress.currentFile }}</p>
-            <p class="text-xs text-green-600">已节省: {{ formatSize(progress.savedSize) }}</p>
+            <p class="text-sm text-gray-500">{{ progress.currentFile }}</p>
+            <p class="text-sm text-green-600">已节省: {{ formatSize(progress.savedSize) }}</p>
           </div>
         </section>
 
@@ -276,7 +276,7 @@
         <section v-if="compressionResult">
           <div class="bg-green-50 border border-green-200 rounded-lg p-3">
             <h3 class="text-sm font-semibold text-green-800 mb-1.5">✅ 压缩完成！</h3>
-            <div class="text-xs space-y-0.5 text-green-700">
+            <div class="text-sm space-y-0.5 text-green-700">
               <p>成功: {{ compressionResult.success }} 张 <span v-if="compressionResult.failed > 0">/ 失败: {{ compressionResult.failed }} 张</span></p>
               <p>原始: {{ formatSize(compressionResult.originalSize) }} → 压缩后: {{ formatSize(compressionResult.compressedSize) }}</p>
               <p class="font-semibold">
